@@ -1,32 +1,38 @@
+from typing import Text
 from bs4 import BeautifulSoup
 import requests
 #BNeawe iBp4i AP7Wnd
 
-def search():
-    google = 'Weather in {Boardman Youngstown Ohio}'
-    url = (f"https://www.google.com/search?&q={google}")
-    request = requests.get(url)
-    httppull = BeautifulSoup(request.text, "html.parser")
-    # tempature = httppull.find('div', attrs={'class': 'gNCp2e'})
-    # print(httppull)
-    # tempstatus = httppull.find_all("span", class_ = 'wob_t')
-    # tempstatus = httppull.find_all("div", attrs={'class' : 'BNeawe s3v9rd AP7Wnd'})
-    tempstatus = httppull.find("div", attrs={'class' : 'BNeawe s3v9rd AP7Wnd'})
-    # tempstatus = httppull.find_all("div", attrs={'class' : 'wob_t'})
-    temp_list = tempstatus.text.split('\n')
-    print(temp_list)
+city = "Boardman Ohio"
+url = "https://www.google.com/search?q="+"weather"+city
+html = requests.get(url).content
+httppull = BeautifulSoup(html, "html.parser")
+temp = httppull.find("div", class_ = "BNeawe").text
+tempstatus = httppull.find("div", class_ = 'BNeawe tAd8D AP7Wnd').text
 
-    i = 0
-    for item in temp_list:
-        print(f"{i}: {item}")
-        i = i+1
+info = tempstatus.split('\n')
+skystatus = info[1]
+templist = httppull.findAll("div", class_ = "Bneawe s3v9rd AP7Wnd")
+divtags = templist[5]
 
+wind = divtags.find("Wind")
+data = divtags[wind:]
 
+tempfeel = f"Tempature: {temp}"
+skyfeel = f"Sky description: {skystatus}"
 
-    # tempstatus = httppull.find_all("div")
-    # for item in tempstatus:
-    #     print(item)
-search()
+print(tempfeel)
+print(skyfeel)
+
+# i = 0
+# for item in temp_list:
+#     print(f"{i}: {item}")
+#     i = i+1
+
+# tempstatus = httppull.find_all("div")
+# for item in tempstatus:
+#     print(item)
+
 
 
 #<div class="kCrYT"><div><div class="BNeawe s3v9rd AP7Wnd"><div><div><div class="BNeawe s3v9rd AP7Wnd">
