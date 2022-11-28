@@ -9,4 +9,4 @@ days = httppull.find_all('div', class_ = 'Column--temp--5hqI_')
 fivedays = days[-5:]
 for i in fivedays:
     alldays = httppull.find_all('div', class_ = 'TemperatureValue')
-    print(i.string)
+    print(i.text)
