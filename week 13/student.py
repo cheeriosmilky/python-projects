@@ -1,18 +1,25 @@
-student_scores = {
+studentscore = {
   "Harry": 81,
   "Ron": 78,
   "Hermione": 99, 
   "Draco": 74,
   "Neville": 62,
 }
-#Don't change the code above 👆
 
-#TODO-1: Create an empty dictionary called student_grades.
+studentgrades = {}
+x = studentgrades.__setitem__
+for i in studentscore:
+  if studentscore[i] >= 91 <= 100:
+    q = 'outstanding'
+    studentscore.replace(81, q)
+  elif studentscore[i] >= 81 <= 90:
+    q = 'exceed expectation'
+    x(i, q)
+  elif studentscore[i] >= 71 <= 80:
+    q = 'accept'
+    x(i, q)
+  else:
+    q = 'failed'
+    x(i, q)
 
-
-#TODO-2: Write your code below to covert scores into grades.👇
-#Hint: Use a for loop here. 
-    
-
-#Don't change the code below 👇
-print(student_grades)
+print(studentgrades)
