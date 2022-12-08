@@ -89,47 +89,47 @@ import random
 
 # MONTH
 
-def monthverify(key):
-    global score
-    global checkdigtimes3
+# def monthverify(key):
+#     global score
+#     global checkdigtimes3
     
-    score = 0
-    checkdig = key[1]
-    checkdigtimes3 = 0
-    chunks = key.split('-')
+#     score = 0
+#     checkdig = key[1]
+#     checkdigtimes3 = 0
+#     chunks = key.split('-')
     
-    for i in chunks:
-        if len(i) != 4:
-            return False
-        for char in i:
-            if char == checkdig:
-                checkdigtimes3 += 1
-            score += ord(char)
-    if score > 1600 and score < 1700 and checkdigtimes3 == 3:
-        return True
-    else:
-        False
-    
+#     for i in chunks:
+#         if len(i) != 4:
+#             return False
+#         for char in i:
+#             if char == checkdig:
+#                 checkdigtimes3 += 1
+#             score += ord(char)
+#     if score > 1600 and score < 1700 and checkdigtimes3 == 3:
+#         return True
+#     else:
+#         False
+q = int(input('digs: '))
 def monthgen():
     key = ''
     sec = ''
     checkdig = 0
     letters = 'abcdefghijklmnopaqrstuvwxya1234567890'
     
-    while len(key) < 25:
+    while len(key) < q:
         char = random.choice(letters)
         key += char
         sec += char
         
-        if len(sec) == 4:
-            key += '-'
-            sec = ''
-    key = key[:-1]
-    
-    if monthverify(key):
-        print(key)
-        print('valid MONTH')
-        print(f'{score}')
-    else:
-        monthgen()
+    #     if len(sec) == 4:
+    #         key += '-'
+    #         sec = ''
+    # key = key[:-1]
+    print(key)
+    # if monthverify(key):
+    #     print(key)
+    #     print('valid MONTH')
+    #     print(f'{score}')
+    # else:
+    #     monthgen()
 monthgen()

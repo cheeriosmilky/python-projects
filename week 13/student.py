@@ -9,9 +9,10 @@ studentscore = {
 studentgrades = {}
 x = studentgrades.__setitem__
 for i in studentscore:
+  # print(studentscore[i])
   if studentscore[i] >= 91 <= 100:
     q = 'outstanding'
-    studentscore.replace(81, q)
+    x(i, q)
   elif studentscore[i] >= 81 <= 90:
     q = 'exceed expectation'
     x(i, q)

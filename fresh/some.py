@@ -6,10 +6,11 @@ from tkinter import messagebox
 from licensing.models import *
 from licensing.methods import Key, Helpers
 import pymysql
+import shutil
 from ctypes import windll
 import os
 
-#python -m PyInstaller --onefile --windowed --add-data "C:/Users/cheer/AppData/Roaming/Python/Python310/site-packages/customtkinter;customtkinter/"  "C:/py/home/fresh/some.py" 
+#python -m PyInstaller --onefile --windowed --icon=C:\py\home\fresh\pics\yea.ico --add-data "C:/Users/cheer/AppData/Roaming/Python/Python310/site-packages/customtkinter;customtkinter/"  "C:/py/home/fresh/some.py" 
 
 RSAPubKey = "<RSAKeyValue><Modulus>xnTzcz52AZRQ0GRKhHOQ0k8mS2FcgyyWPFD8Ro21uluBLZNaH/ewQGhj8dnXMnJ0HAoaItiGY/BvpHto2FSpypYPNMxXGZC3Go+lswVYPnyfRH76ro5/k0jHRrMLQdErR1BiCJDzUWGhbJIXkoXTj7YnVyGHCbcUC/xuNifGRFhj/SnSg/chpw27DYKVbeC2SzN4q9XvtTqdPKH3AVuC7M5FjjhsSb4+dtwHyqLbGeW8elCPs5bf25tOvQFmWoWK+v3MF/np0Ig+BzTZP5E6hWbSVCGk3kK9yPpQXlEB9dVm3x9oNhwvpl6gHYLjCXaBA5bjUgzdIL00dS/6x0INwQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>"
 auth = "WyIzMDg4ODQyNCIsImIvUnJuQVVyaWVHamJMV0pTeG1RRlJXVGhsQVVyc21HUFdYb1lWNXQiXQ=="
@@ -31,19 +32,21 @@ yaxis = (sheight/2) - (wheight/2)
 root.geometry("{}x{}+{}+{}".format(wwidth, wheight, int(xaxis), int(yaxis)))
 root.resizable(0, 0)
 
-titlebar = Frame(root, bg='#1B1B1D', relief='raised', bd=0, highlightthickness=6, highlightbackground='#1B1B1D')
+titlebar = Frame(root, bg='#31333D', relief='raised', bd=0, highlightthickness=6, highlightbackground='#31333D')
 titlebar.pack(fill=X)
-titlebartitle = Label(titlebar, text='Glactic', bg='#1B1B1D',bd=0,fg='#757576', font=('helvetica', 10), highlightthickness=0)
-titlebartitle.pack(side=LEFT, padx=10)
-closebutton = Button(titlebar, text='  ×  ', command=root.destroy,bg='#1B1B1D',font=("calibri", 10),bd=0,fg='#757576',highlightthickness=0)
-closebutton.pack(side=RIGHT,ipadx=7,ipady=1)
+titlebartitle = Label(root, text='Glactic', bg='#31333D',bd=0,fg='#808080', font=('helvetica', 10), highlightthickness=0)
+titlebartitle.place(y=5, x=9)
+titlebartitle = Label(titlebar, bg='#31333D',bd=0,fg='#808080', font=('helvetica', 8, 'bold'), highlightthickness=0)
+titlebartitle.pack(side=TOP, padx=10)
+closebutton = Button(root, text='  ×  ', command=root.destroy,bg='#31333D',font=("calibri", 10, 'bold'),bd=0,fg='#808080',highlightthickness=0, width=5)
+closebutton.place(y=4, x=607)
 
 def changex_on_hovering(event):
     global closebutton
-    closebutton['bg']='#3e4042'
+    closebutton['bg']='#5A5A5A'
 def returnx_to_normalstate(event):
     global closebutton
-    closebutton['bg']='#1B1B1D'
+    closebutton['bg']='#31333D'
     
 closebutton.bind('<Enter>',changex_on_hovering)
 closebutton.bind('<Leave>',returnx_to_normalstate)
@@ -105,7 +108,7 @@ def signup():
             con = pymysql.connect(host='localhost', user='root', password='camo')
             mycur = con.cursor()
         except:
-            messagebox.showerror('Error', 'Database Connectivity Issue\n                    Try Again')
+            messagebox.showerror('Error', 'Database Connectivity Issue\n              Try Again')
             return
         
         global reglicenseinfo
@@ -151,7 +154,6 @@ def signup():
                 con.close()
                 loginBclick()
 
-
 def loginT():
     if loglicense.get() == '':
         messagebox.showerror('Error', 'All Fields are Required')
@@ -160,7 +162,7 @@ def loginT():
             con = pymysql.connect(host='localhost', user='root', password='camo')
             mycur = con.cursor()
         except:
-            messagebox.showerror('Error', 'Database Connectivity Issue\n                    Try Again')
+            messagebox.showerror('Error', 'Database Connectivity Issue\n              Try Again')
             return
         
         global loglicenseinfo
@@ -250,7 +252,7 @@ def registerclick():
     registerpage()
 
 def registerpage():
-    ctk.CTkLabel(master=frame, text='Glactic', text_font=('Arial Black', 45), text_color='#757BC1').place(y=0, x=205) # label
+    ctk.CTkLabel(master=frame, text='Glactic', text_font=('Arial Black', 45), text_color='#757BC1').place(y=0, x=209) # label
     
     global regusername
     regusername = ctk.CTkEntry(master=frame, placeholder_text='Username', text_font=('Arial', 10), bg_color='#1D1E24', width=230, height=35, fg_color='#1D1E24', border_color='#757BC1', border_width=1)
@@ -261,25 +263,25 @@ def registerpage():
     regpassword.place(y=135, x=215)
     
     global reglicense
-    reglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), width=290, height=40, border_color='#757BC1', fg_color='#1D1E24', border_width=1)
-    reglicense.place(y=185, x=178)
+    reglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), width=275, height=40, border_color='#757BC1', fg_color='#1D1E24', border_width=1)
+    reglicense.place(y=185, x=190)
     
-    ctk.CTkButton(master=frame, text='  Signup', command=signup, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=80, height=40, border_color='#757BC1').place(y=185, x=395)    # sign up
+    ctk.CTkButton(master=frame, text='  Signup', command=signup, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=80, height=40, border_color='#757BC1').place(y=185, x=385)    # sign up
     
-    ctk.CTkButton(master=frame, text='Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=236, x=335)    # register bottom
+    ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=236, x=335)    # register bottom
 
     ctk.CTkButton(master=frame, text='Login', text_font=('Arial Black', 10, 'bold'), command=loginBclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=236, x=190)     # login bottom
     
-    tk.Frame(frame, background='#1D1E24', width=7, height=40,).place(y=185, x=395)   # fix inner
+    tk.Frame(frame, background='#1D1E24', width=7, height=40,).place(y=185, x=385)   # fix inner
     
-    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=185, x=395)     # fix out top
+    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=185, x=385)     # fix out top
     
-    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=224, x=395)    # fix out bottom
+    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=224, x=385)    # fix out bottom
 
     root.mainloop()
 
 def loginpage():
-    ctk.CTkLabel(master=frame, text='Glactic', text_font=('Arial Black', 45), text_color='#757BC1').place(y=0, x=205) # label
+    ctk.CTkLabel(master=frame, text='Glactic', text_font=('Arial Black', 45), text_color='#757BC1').place(y=0, x=209) # label
     
     # global logusername
     # logusername = ctk.CTkEntry(master=frame, placeholder_text='Username', text_font=('Arial', 10), bg_color='#1D1E24', width=230, height=35)
@@ -290,26 +292,26 @@ def loginpage():
     # logpassword.place(y=165, x=235)
         
     global loglicense
-    loglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), show='•', width=290, height=40, border_color='#757BC1', fg_color='#1D1E24',  border_width=1)
-    loglicense.place(y=130, x=178)
+    loglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), show='•', width=275, height=40, border_color='#757BC1', fg_color='#1D1E24',  border_width=1)
+    loglicense.place(y=130, x=190)
     
     # mydiscord = ctk.CTkLabel(master=frame, text='Discord: cheerios#6071', text_font=('Arial', 10), text_color='white')
     # mydiscord.place(y=220, x=205)
     
-    ctk.CTkButton(master=frame, text='  Login', command=loginT, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=80, height=40).place(y=130, x=395)  # login top
+    ctk.CTkButton(master=frame, text='  Login', command=loginT, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=80, height=40).place(y=130, x=385)  # login top
     
-    ctk.CTkButton(master=frame, text='Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=236, x=335)   # register bottom
+    ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=236, x=335)   # register bottom
             
     ctk.CTkButton(master=frame, text='Login', text_font=('Arial Black', 10, 'bold'), command=loginBclick, bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=236, x=190) # login bottom
     
     # LoginTbutton = ctk.CTkButton(master=frame, text='  Login', command=loginT, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=80, height=35)
     # LoginTbutton.place(y=165, x=385)
     
-    tk.Frame(frame, background='#1D1E24', width=7, height=40).place(y=130, x=395)   # fix inner
+    tk.Frame(frame, background='#1D1E24', width=7, height=40).place(y=130, x=385)   # fix inner
     
-    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=130, x=395)    # fix out top
+    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=130, x=385)    # fix out top
     
-    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=169, x=395)    # fix out bottom
+    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=169, x=385)    # fix out bottom
 
     # framefixiner = tk.Frame(frame, background='#3D3D3D', width=7, height=34)
     # framefixiner.place(y=165, x=385)
@@ -322,7 +324,7 @@ def loginpage():
 
     # remme = ctk.CTkCheckBox(master=frame, text='Remember Me', fg_color='#757BC1')
     # remme.place(y=220, x=205)
-            
+        
     root.mainloop()
 
 def mainpage():
@@ -333,7 +335,6 @@ def mainpage():
     
     ctk.CTkButton(master=frame, text='Sign Out', text_font=('Arial Black', 9), text_color='white', fg_color='#1D1E24', command=loginBclick, width=12, height=6).place(y=15, x=565) # label
 
-    
     root.mainloop()
 
 loginpage()
