@@ -23,8 +23,8 @@ mainc = '#1D1E24'
 root = ctk.CTk()
 root.title('Glactic') 
 root.overrideredirect(True)
-wwidth=650
-wheight=325
+wwidth=430
+wheight=225
 swidth = root.winfo_screenwidth()
 sheight = root.winfo_screenheight()
 xaxis = (swidth/2) - (wwidth/2)
@@ -39,7 +39,7 @@ titlebartitle.place(y=5, x=9)
 titlebartitle = Label(titlebar, bg='#31333D',bd=0,fg='#808080', font=('helvetica', 8, 'bold'), highlightthickness=0)
 titlebartitle.pack(side=TOP, padx=10)
 closebutton = Button(root, text='  ×  ', command=root.destroy,bg='#31333D',font=("calibri", 10, 'bold'),bd=0,fg='#808080',highlightthickness=0, width=5)
-closebutton.place(y=4, x=607)
+closebutton.place(y=4, x=458)
 
 def changex_on_hovering(event):
     global closebutton
@@ -259,27 +259,27 @@ def registerpage():
     
     global regusername
     regusername = ctk.CTkEntry(master=frame, placeholder_text='Username', text_font=('Arial', 10), bg_color='#1D1E24', width=230, height=35, fg_color='#1D1E24', border_color='#757BC1', border_width=1)
-    regusername.place(y=85, x=215)
+    regusername.place(y=10, x=20)
     
     global regpassword
     regpassword = ctk.CTkEntry(master=frame, placeholder_text='Password', text_font=('Arial', 10), show='•', width=230, height=35, border_color='#757BC1', fg_color='#1D1E24', border_width=1)
-    regpassword.place(y=135, x=215)
+    regpassword.place(y=52, x=20)
     
     global reglicense
-    reglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), width=275, height=40, border_color='#757BC1', fg_color='#1D1E24', border_width=1)
-    reglicense.place(y=185, x=190)
+    reglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), width=265, height=40, border_color='#757BC1', fg_color='#1D1E24', border_width=1)
+    reglicense.place(y=95, x=20)
     
-    ctk.CTkButton(master=frame, text='  Signup', command=signup, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=80, height=40, border_color='#757BC1').place(y=185, x=385)    # sign up
+    ctk.CTkButton(master=frame, text='  Signup', command=signup, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=80, height=40, border_color='#757BC1').place(y=95, x=208)    # sign up
     
-    ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=236, x=335)    # register bottom
+    ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=145, x=158)     # register bottom
 
-    ctk.CTkButton(master=frame, text='Login', text_font=('Arial Black', 10, 'bold'), command=loginBclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=236, x=190)     # login bottom
+    ctk.CTkButton(master=frame, text='Login', text_font=('Arial Black', 10, 'bold'), command=loginBclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=145, x=20)    # login bottom
     
-    tk.Frame(frame, background='#1D1E24', width=7, height=40,).place(y=185, x=385)   # fix inner
+    tk.Frame(frame, background='#1D1E24', width=7, height=40,).place(y=95, x=208)   # fix inner
     
-    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=185, x=385)     # fix out top
+    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=95, x=208)     # fix out top
     
-    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=224, x=385)    # fix out bottom
+    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=134, x=208)    # fix out bottom
 
     root.mainloop()
 
@@ -295,26 +295,26 @@ def loginpage():
     # logpassword.place(y=165, x=235)
         
     global loglicense
-    loglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), show='•', width=275, height=40, border_color='#757BC1', fg_color='#1D1E24',  border_width=1)
-    loglicense.place(y=130, x=190)
+    loglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), show='•', width=265, height=40, border_color='#757BC1', fg_color='#1D1E24',  border_width=1)
+    loglicense.place(y=100, x=20)
     
     # mydiscord = ctk.CTkLabel(master=frame, text='Discord: cheerios#6071', text_font=('Arial', 10), text_color='white')
     # mydiscord.place(y=220, x=205)
     
-    ctk.CTkButton(master=frame, text='  Login', command=loginT, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=80, height=40).place(y=130, x=385)  # login top
+    ctk.CTkButton(master=frame, text='  Login', command=loginT, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=80, height=40).place(y=100, x=208)  # login top
     
-    ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=236, x=335)   # register bottom
+    ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=165, x=158)   # register bottom
             
-    ctk.CTkButton(master=frame, text='Login', text_font=('Arial Black', 10, 'bold'), command=loginBclick, bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=236, x=190) # login bottom
+    ctk.CTkButton(master=frame, text='Login', text_font=('Arial Black', 10, 'bold'), command=loginBclick, bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=165, x=20)# login bottom
     
     # LoginTbutton = ctk.CTkButton(master=frame, text='  Login', command=loginT, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=80, height=35)
     # LoginTbutton.place(y=165, x=385)
     
-    tk.Frame(frame, background='#1D1E24', width=7, height=40).place(y=130, x=385)   # fix inner
+    tk.Frame(frame, background='#1D1E24', width=7, height=40).place(y=100, x=208)   # fix inner
     
-    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=130, x=385)    # fix out top
+    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=100, x=208)    # fix out top
     
-    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=169, x=385)    # fix out bottom
+    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=139, x=208)    # fix out bottom
 
     # framefixiner = tk.Frame(frame, background='#3D3D3D', width=7, height=34)
     # framefixiner.place(y=165, x=385)

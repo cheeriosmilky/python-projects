@@ -14,5 +14,4 @@ def nums():
         lock += char     #adding the chars to final lock combo
     if a > 0:    
         print(lock)
-        print('')
 repeat(a, nums)     #calling main func and combo repeat func
