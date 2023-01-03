@@ -63,7 +63,7 @@ with open("forecast.csv", "w") as csv_file:
  
   # Write the forecast data to the file
   for day in forecast_data:
-    writer.writerow(day)
+    
 
 ### I know I was supposed to consistantly update my github but I decided not to since I was testing things.
 ### Most of the code that the ai gave us was wrong, it gave tables and classes that dont exist, I think.

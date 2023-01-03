@@ -5,7 +5,7 @@ a = int(input('how many combos: '))     #questions
 
 def repeat(times, defs, *repeats):                        #repeat function
     for answerToA in range(times): defs(*repeats)           #if answer in range(amount of times), it repeats it that many times
-                                                            ##combo function^##
+                ##combo function^##
 def nums(): 
     lock = ''
     ops = '1234567890'          #lock is empty  options(ops) are choices

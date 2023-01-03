@@ -5,7 +5,6 @@ studentscore = {
   "Draco": 74,
   "Neville": 62,
 }
-
 studentgrades = {}
 x = studentgrades.__setitem__
 for i in studentscore:
@@ -22,5 +21,4 @@ for i in studentscore:
   else:
     q = 'failed'
     x(i, q)
-
 print(studentgrades)
