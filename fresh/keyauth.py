@@ -6,7 +6,7 @@ auth = "WyIyOTk0MTQ3NCIsIkJ6TmxpdGNPZkRMMmVDbzZ5b1JwZXpYSWtSdmcwMHV4MXlFZyttOE8i
 
 result = Key.activate(token=auth,\
                    rsa_pub_key=RSAPubKey,\
-                   product_id=17671, \
+                   product_id=, \
                    key="",\
                    machine_code=Helpers.GetMachineCode(v=2))
 
