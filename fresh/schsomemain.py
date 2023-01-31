@@ -9,10 +9,10 @@ import pymysql
 import mysql.connector as mysql
 import shutil
 from ctypes import windll
+import shelve
 import os
-import time
 
-#python -m PyInstaller --onefile --windowed --icon=C:\py\home\fresh\pics\yea.ico --add-data "C:/Users/cheer/AppData/Roaming/Python/Python310/site-packages/customtkinter;customtkinter/"  "C:/py/home/fresh/some.py" 
+#python -m PyInstaller --onefile --windowed --icon=C:\py\home\fresh\pics\yea.ico --add-data "C:/Users/cheer/AppData/Roaming/Python/Python310/site-packages/customtkinter;customtkinter/"  "C:/py/home/fresh/schsomemain.py" 
 
 RSAPubKey = "<RSAKeyValue><Modulus>nakBsggAFPeri5w98jlWfQ2bLlFG4b704be79ox+VOhze7kiqGZFc4zHAAHFVObC8sCAXT443NXxp4vxUwkXuMOjDl+WYzzGEeOvaotnjbSUwwKnF9mmHn3HxR8vahvpxcdOK/QErj20D6FArgqSAPNe4fWBowfK0LBcsmUgA9S4aAWqdbzn5I/wymbEdFALLDP00q1sDmEYlLNGXI+ixwX1ozn8gK0dx7QPyyK9GqJ551wWCknFwc63dJbYA1c7k98FLhgWC/vxcBdNZTH66WGtsRLT/sYboYd/2LRUoFGCeZ8GOiJ4F2oTOVLGImJaXmdod6sB1jXB8YQAImqbjQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>"
 auth = "WyIzNjA2NjYxNCIsInlLSWJ5VVJEdFVPZHpkN3A3TE1rVk9HQ3Zxa29UcTVVaE1YeUtmR0giXQ=="
@@ -23,7 +23,7 @@ ctk.set_default_color_theme('dark-blue')
 mainc = '#1D1E24'
 
 root = ctk.CTk()
-root.title('Lozer') 
+root.title('Malware') 
 root.overrideredirect(True)
 wwidth=550
 wheight=300
@@ -34,13 +34,47 @@ yaxis = (sheight/2) - (wheight/2)
 root.geometry("{}x{}+{}+{}".format(wwidth, wheight, int(xaxis), int(yaxis)))
 root.resizable(0, 0)
 
+def combine_funcs(*funcs):
+  
+    # this function will call the passed functions
+    # with the arguments that are passed to the functions
+    def inner_combined_func(*args, **kwargs):
+        for f in funcs:
+  
+            # Calling functions with arguments, if any
+            f(*args, **kwargs)
+  
+    # returning the reference of inner_combined_func
+    # this reference will have the called result of all
+    # the functions that are passed to the combined_funcs
+    return inner_combined_func
+
+def save_state():
+    with open("checkbox_state.txt", "w") as file:
+        file.write(str(var.get()))
+def save_state2():
+    with open("checkbox_state.txt", "w") as file:
+        file.write(str(var.get()))
+        root.destroy
+
+def load_state():
+    try:
+        with open("checkbox_state.txt", "r") as file:
+            state = file.read().strip()
+            if state == "True":
+                var.set(True)
+            else:
+                var.set(False)
+    except:
+        pass
+
 titlebar = Frame(root, bg='#31333D', relief='raised', bd=0, highlightthickness=6, highlightbackground='#31333D')
 titlebar.pack(fill=X)
-titlebartitle = Label(root, text='Lozer', bg='#31333D',bd=0,fg='#808080', font=('helvetica', 10), highlightthickness=0)
+titlebartitle = Label(root, text='Malware', bg='#31333D',bd=0,fg='#808080', font=('helvetica', 10), highlightthickness=0)
 titlebartitle.place(y=5, x=9)
 titlebartitle = Label(titlebar, bg='#31333D',bd=0,fg='#808080', font=('helvetica', 8, 'bold'), highlightthickness=0)
 titlebartitle.pack(side=TOP, padx=10)
-closebutton = Button(root, text='  ×  ', command=root.destroy,bg='#31333D',font=("calibri", 10, 'bold'),bd=0,fg='#808080',highlightthickness=0, width=5)
+closebutton = Button(root, text='  ×  ', command=combine_funcs(save_state, root.destroy), bg='#31333D',font=("calibri", 10, 'bold'),bd=0,fg='#808080',highlightthickness=0, width=5)
 closebutton.place(y=4, x=507)
 
 def changex_on_hovering(event):
@@ -52,7 +86,6 @@ def returnx_to_normalstate(event):
     
 closebutton.bind('<Enter>',changex_on_hovering)
 closebutton.bind('<Leave>',returnx_to_normalstate)
-
 
 def set_appwindow(mainWindow): # to display the window icon on the taskbar, 
                                # even when using root.overrideredirect(True
@@ -102,12 +135,13 @@ root.after(10, lambda: set_appwindow(root)) # to see the icon on the task bar
 frame = ctk.CTkFrame(master=root, fg_color='#1D1E24', bg_color='#1D1E24')
 frame.pack(fill='both', expand=True)
 
+con = pymysql.connect(host='sql9.freemysqlhosting.net', user='sql9594536', password='DAeBXIVwAU', database='sql9594536')
+
 def loginT():
     if loglicense.get() == '':
         messagebox.showerror('Error', 'All Fields are Required')
     else:
         try:
-            con = pymysql.connect(host='sql9.freesqldatabase.com', user='sql9592838', password='wYxNThFqpm', database='sql9592838')
             mycur = con.cursor()
         except:
             messagebox.showerror('Error', 'Database Connectivity Issue\n              Try Again')
@@ -117,7 +151,7 @@ def loginT():
         loglicenseinfo = loglicense.get()
         result = Key.activate(token=auth,\
                     rsa_pub_key=RSAPubKey,\
-                    product_id=18566, \
+                    product_id=18644, \
                     key=f'{loglicenseinfo}',\
                     machine_code=Helpers.GetMachineCode())
         if result[0] == None or not Helpers.IsOnRightMachine(result[0]):
@@ -126,7 +160,7 @@ def loginT():
             messagebox.showerror('Error', 'Invalid or Expired License Key')
         else:   
             try:
-                query = 'use sql9592838'
+                query = 'use sql9594536'
                 mycur.execute(query)
                 query= 'select * from customer where licensekey=%s'
                 mycur.execute(query, (loglicense.get()))
@@ -136,6 +170,7 @@ def loginT():
                 else:
                     for widget in frame.winfo_children():
                         widget.destroy()
+                    save_state()
                     mainpage()
             except:
                 messagebox.showerror('Error', 'License Key not Registered')
@@ -145,7 +180,6 @@ def signup():
         messagebox.showerror('Error', 'All Fields are Required')
     else:
         try:
-            con = pymysql.connect(host='sql9.freesqldatabase.com', user='sql9592838', password='wYxNThFqpm', database='sql9592838')
             mycur = con.cursor()
         except:
             messagebox.showerror('Error', 'Database Connectivity Issue\n              Try Again')
@@ -155,7 +189,7 @@ def signup():
         reglicenseinfo = reglicense.get()
         result = Key.activate(token=auth,\
                     rsa_pub_key=RSAPubKey,\
-                    product_id=18566, \
+                    product_id=18644, \
                     key=f'{reglicenseinfo}',\
                     machine_code=Helpers.GetMachineCode())
         if result[0] == None or not Helpers.IsOnRightMachine(result[0]):
@@ -163,7 +197,7 @@ def signup():
             # (eg. the limit of activated devices was achieved)
             messagebox.showerror('Error', 'Invalid or Expired License Key')
         else:
-            mycur.execute('use sql9592838')
+            mycur.execute('use sql9594536')
             
             query = 'select * from customer where username=%s'
             mycur.execute(query,(regusername.get()))
@@ -189,7 +223,6 @@ def upgrade():
         messagebox.showerror('Error', 'All Fields are Required')
     else:
         try:
-            con = pymysql.connect(host='sql9.freesqldatabase.com', user='sql9592838', password='wYxNThFqpm', database='sql9592838')
             mycur = con.cursor()
         except:
             messagebox.showerror('Error', 'Database Connectivity Issue\n              Try Again')
@@ -201,7 +234,7 @@ def upgrade():
         upnewlicenseinfo = upnewlicense.get()
         result = Key.activate(token=auth,\
                     rsa_pub_key=RSAPubKey,\
-                    product_id=18566, \
+                    product_id=18644, \
                     key=f'{upnewlicenseinfo}',\
                     machine_code=Helpers.GetMachineCode())
         if result[0] == None or not Helpers.IsOnRightMachine(result[0]):
@@ -209,7 +242,7 @@ def upgrade():
             # (eg. the limit of activated devices was achieved)
             messagebox.showerror('Error', 'Invalid or Expired License Key')
         else:
-            mycur.execute('use sql9592838')
+            mycur.execute('use sql9594536')
 
             try:
                 query = 'select * from customer where licensekey=%s'
@@ -241,7 +274,7 @@ def oldsignup():
     reglicenseinfo = reglicense.get()
     result = Key.activate(token=auth,\
                    rsa_pub_key=RSAPubKey,\
-                   product_id=18566, \
+                   product_id=18644, \
                    key=f'{reglicenseinfo}',\
                    machine_code=Helpers.GetMachineCode(v=2))
     if result[0] == None or not Helpers.IsOnRightMachine(result[0], v=2):
@@ -262,7 +295,7 @@ def oldloginT():
     loglicenseinfo = loglicense.get()
     result = Key.activate(token=auth,\
                    rsa_pub_key=RSAPubKey,\
-                   product_id=18566, \
+                   product_id=18644, \
                    key=f'{loglicenseinfo}',\
                    machine_code=Helpers.GetMachineCode(v=2))
     if result[0] == None or not Helpers.IsOnRightMachine(result[0], v=2):
@@ -285,6 +318,8 @@ def oldloginT():
                 mainpage()
         else:
             signuppopup()
+
+var = ctk.BooleanVar()
 
 def loginBclick():
     for widget in frame.winfo_children():
@@ -344,8 +379,9 @@ def loginpage():
     # framefixoutB = tk.Frame(frame, background='#525252', width=8, height=2)
     # framefixoutB.place(y=197, x=384)
 
-    # remme = ctk.CTkCheckBox(master=frame, text='Remember Me', fg_color='#757BC1')
-    # remme.place(y=220, x=205)
+    global remme
+    remme = ctk.CTkCheckBox(master=frame, text='Remember me', fg_color='#757BC1', width=20, height=20, variable=var, border_width=1.5, border_color='#757BC1')
+    remme.place(y=160, x=120)
         
     root.mainloop()
 
@@ -401,7 +437,7 @@ def upgradepage():
     
     ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=210, x=209.49999999999995)     # register bottom
     
-    ctk.CTkButton(master=frame, text=' Upgrade', text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=210, x=348)    # upgrade bottom
+    ctk.CTkButton(master=frame, text='Upgrade', text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=210, x=348)    # upgrade bottom
 
     tk.Frame(frame, background='#1D1E24', width=7, height=40,).place(y=155, x=348)   # fix inner
     
@@ -419,4 +455,7 @@ def mainpage():
 
     root.mainloop()
 
-mainpage()
+load_state()
+root.protocol("WM_DELETE_WINDOW", save_state)
+
+loginpage()
