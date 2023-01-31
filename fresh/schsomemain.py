@@ -52,10 +52,6 @@ def combine_funcs(*funcs):
 def save_state():
     with open("checkbox_state.txt", "w") as file:
         file.write(str(var.get()))
-def save_state2():
-    with open("checkbox_state.txt", "w") as file:
-        file.write(str(var.get()))
-        root.destroy
 
 def load_state():
     try:
@@ -135,13 +131,12 @@ root.after(10, lambda: set_appwindow(root)) # to see the icon on the task bar
 frame = ctk.CTkFrame(master=root, fg_color='#1D1E24', bg_color='#1D1E24')
 frame.pack(fill='both', expand=True)
 
-con = pymysql.connect(host='192.169.144.133', user='santucci', password='mcctcrocks', database='carter_santucci')
-
 def loginT():
     if loglicense.get() == '':
         messagebox.showerror('Error', 'All Fields are Required')
     else:
         try:
+            con = pymysql.connect(host='192.169.144.133', user='santucci', password='mcctcrocks', database='carter_santucci')
             mycur = con.cursor()
         except:
             messagebox.showerror('Error', 'Database Connectivity Issue\n              Try Again')
@@ -170,7 +165,6 @@ def loginT():
                 else:
                     for widget in frame.winfo_children():
                         widget.destroy()
-                    # save_state()
                     mainpage()
             except:
                 messagebox.showerror('Error', 'License Key not Registered')
@@ -180,6 +174,7 @@ def signup():
         messagebox.showerror('Error', 'All Fields are Required')
     else:
         try:
+            con = pymysql.connect(host='192.169.144.133', user='santucci', password='mcctcrocks', database='carter_santucci')
             mycur = con.cursor()
         except:
             messagebox.showerror('Error', 'Database Connectivity Issue\n              Try Again')
@@ -198,7 +193,6 @@ def signup():
             messagebox.showerror('Error', 'Invalid or Expired License Key')
         else:
             mycur.execute('use carter_santucci')
-            
             query = 'select * from customer where username=%s'
             mycur.execute(query,(regusername.get()))
             row = mycur.fetchone()
@@ -217,12 +211,15 @@ def signup():
                 con.commit()
                 con.close()
                 loginBclick()
-                
+                with open("info.txt", "w") as file:
+                    file.write(f'{reglicenseinfo}')
+
 def upgrade():
     if upusername.get() == '' or uppassword.get() == '' or upnewlicense.get() == '':
         messagebox.showerror('Error', 'All Fields are Required')
     else:
         try:
+            con = pymysql.connect(host='192.169.144.133', user='santucci', password='mcctcrocks', database='carter_santucci')
             mycur = con.cursor()
         except:
             messagebox.showerror('Error', 'Database Connectivity Issue\n              Try Again')
@@ -260,64 +257,13 @@ def upgrade():
                     con.commit()
                     con.close()
                     loginBclick()
+                    with open("info.txt", "w") as file:
+                        file.write(f'{upnewlicenseinfo}')
                 else:
                     messagebox.showerror('Error', 'User not Found')
             except:
                 messagebox.showerror('Error', 'User not Found')
 
-
-def oldsignup():
-    # global regusernameinfo
-    # global reglicenseinfo
-    regusernameinfo = regusername.get()
-    regpasswordinfo = regpassword.get()
-    reglicenseinfo = reglicense.get()
-    result = Key.activate(token=auth,\
-                   rsa_pub_key=RSAPubKey,\
-                   product_id=18644, \
-                   key=f'{reglicenseinfo}',\
-                   machine_code=Helpers.GetMachineCode(v=2))
-    if result[0] == None or not Helpers.IsOnRightMachine(result[0], v=2):
-        # an error occurred or the key is invalid or it cannot be activated
-        # (eg. the limit of activated devices was achieved)
-        invalidpopup()
-    else:
-        # everything went fine if we are here!
-        print("The license is valid!")
-        file = open(reglicenseinfo, 'w')
-        file.write(regusernameinfo+'\n')
-        file.write(regpasswordinfo+'\n')
-        file.write(reglicenseinfo)
-        file.close()
-        loginBclick()
-
-def oldloginT():
-    loglicenseinfo = loglicense.get()
-    result = Key.activate(token=auth,\
-                   rsa_pub_key=RSAPubKey,\
-                   product_id=18644, \
-                   key=f'{loglicenseinfo}',\
-                   machine_code=Helpers.GetMachineCode(v=2))
-    if result[0] == None or not Helpers.IsOnRightMachine(result[0], v=2):
-        # an error occurred or the key is invalid or it cannot be activated
-        # (eg. the limit of activated devices was achieved)
-        invalidpopup()
-    else:
-        # everything went fine if we are here!
-        pass
-        
-        license1 = loglicense.get()
-        
-        list_of_files = os.listdir()
-        if license1 in list_of_files:
-            file1 = open(f'{loglicenseinfo}', 'r')
-            verify = file1.read().splitlines()
-            if license1 in verify:
-                for widget in frame.winfo_children():
-                    widget.destroy()
-                mainpage()
-        else:
-            signuppopup()
 
 var = ctk.BooleanVar()
 
@@ -333,7 +279,9 @@ def upgradeclick():
     for widget in frame.winfo_children():
         widget.destroy()
     upgradepage()
-    
+
+loglicense = ctk.CTkEntry(root)
+
 def loginpage():
     ctk.CTkLabel(master=frame, text='', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=85) # label
     
@@ -344,10 +292,23 @@ def loginpage():
     # global logpassword
     # logpassword = ctk.CTkEntry(master=frame, placeholder_text='Password', text_font=('Arial', 10), width=230, height=35)
     # logpassword.place(y=165, x=235)
-        
+    
     global loglicense
-    loglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), show='•', width=265, height=40, border_color='#757BC1', fg_color='#1D1E24',  border_width=1)
-    loglicense.place(y=105, x=120)
+    try:
+        with open("checkbox_state.txt", "r") as file:
+            state = file.read().strip()
+            if state == "True":
+                file = open(f'info.txt', 'r')
+                verify = file.read().splitlines()
+                v = StringVar(root, value=verify)
+                loglicense = ctk.CTkEntry(master=frame, text_font=('Arial', 10), show='•', textvariable=v, placeholder_text='License Key', width=265, height=40, border_color='#757BC1', fg_color='#1D1E24',  border_width=1)
+                loglicense.place(y=105, x=120)
+            else:
+                loglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), show='•', width=265, height=40, border_color='#757BC1', fg_color='#1D1E24',  border_width=1)
+                loglicense.place(y=105, x=120)
+    except:
+        pass   
+    
     
     # mydiscord = ctk.CTkLabel(master=frame, text='Discord: cheerios#6071', text_font=('Arial', 10), text_color='white')
     # mydiscord.place(y=220, x=205)
@@ -380,7 +341,7 @@ def loginpage():
     # framefixoutB.place(y=197, x=384)
 
     global remme
-    remme = ctk.CTkCheckBox(master=frame, text='Remember me', fg_color='#757BC1', width=20, height=20, variable=var, border_width=1.5, border_color='#757BC1')
+    remme = ctk.CTkCheckBox(master=frame, text='Remember me', fg_color='#757BC1', width=20, height=20, variable=var, command=save_state, border_width=1.5, border_color='#757BC1')
     remme.place(y=160, x=120)
         
     root.mainloop()
