@@ -135,7 +135,7 @@ root.after(10, lambda: set_appwindow(root)) # to see the icon on the task bar
 frame = ctk.CTkFrame(master=root, fg_color='#1D1E24', bg_color='#1D1E24')
 frame.pack(fill='both', expand=True)
 
-con = pymysql.connect(host='sql9.freemysqlhosting.net', user='sql9594536', password='DAeBXIVwAU', database='sql9594536')
+con = pymysql.connect(host='192.169.144.133', user='santucci', password='mcctcrocks', database='carter_santucci')
 
 def loginT():
     if loglicense.get() == '':
@@ -160,7 +160,7 @@ def loginT():
             messagebox.showerror('Error', 'Invalid or Expired License Key')
         else:   
             try:
-                query = 'use sql9594536'
+                query = 'use carter_santucci'
                 mycur.execute(query)
                 query= 'select * from customer where licensekey=%s'
                 mycur.execute(query, (loglicense.get()))
@@ -170,7 +170,7 @@ def loginT():
                 else:
                     for widget in frame.winfo_children():
                         widget.destroy()
-                    save_state()
+                    # save_state()
                     mainpage()
             except:
                 messagebox.showerror('Error', 'License Key not Registered')
@@ -197,7 +197,7 @@ def signup():
             # (eg. the limit of activated devices was achieved)
             messagebox.showerror('Error', 'Invalid or Expired License Key')
         else:
-            mycur.execute('use sql9594536')
+            mycur.execute('use carter_santucci')
             
             query = 'select * from customer where username=%s'
             mycur.execute(query,(regusername.get()))
@@ -242,7 +242,7 @@ def upgrade():
             # (eg. the limit of activated devices was achieved)
             messagebox.showerror('Error', 'Invalid or Expired License Key')
         else:
-            mycur.execute('use sql9594536')
+            mycur.execute('use carter_santucci')
 
             try:
                 query = 'select * from customer where licensekey=%s'
