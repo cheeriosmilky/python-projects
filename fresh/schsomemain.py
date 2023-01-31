@@ -10,6 +10,7 @@ import mysql.connector as mysql
 import shutil
 from ctypes import windll
 import os
+import time
 
 #python -m PyInstaller --onefile --windowed --icon=C:\py\home\fresh\pics\yea.ico --add-data "C:/Users/cheer/AppData/Roaming/Python/Python310/site-packages/customtkinter;customtkinter/"  "C:/py/home/fresh/some.py" 
 
@@ -400,7 +401,7 @@ def upgradepage():
     
     ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=210, x=209.49999999999995)     # register bottom
     
-    ctk.CTkButton(master=frame, text='Upgrade', text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=210, x=348)    # upgrade bottom
+    ctk.CTkButton(master=frame, text=' Upgrade', text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=210, x=348)    # upgrade bottom
 
     tk.Frame(frame, background='#1D1E24', width=7, height=40,).place(y=155, x=348)   # fix inner
     
