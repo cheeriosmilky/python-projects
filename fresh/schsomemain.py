@@ -8,9 +8,12 @@ from licensing.methods import Key, Helpers
 import pymysql
 import mysql.connector as mysql
 import shutil
+import threading
 from ctypes import windll
 import shelve
 import os
+import cv2
+from PIL import Image, ImageTk
 
 #python -m PyInstaller --onefile --windowed --icon=C:\py\home\fresh\pics\yea.ico --add-data "C:/Users/cheer/AppData/Roaming/Python/Python310/site-packages/customtkinter;customtkinter/"  "C:/py/home/fresh/schsomemain.py" 
 
@@ -25,14 +28,14 @@ mainc = '#1D1E24'
 root = ctk.CTk()
 root.title('Malware') 
 root.overrideredirect(True)
-wwidth=550
-wheight=300
+wwidth=750
+wheight=400
 swidth = root.winfo_screenwidth()
 sheight = root.winfo_screenheight()
 xaxis = (swidth/2) - (wwidth/2)
 yaxis = (sheight/2) - (wheight/2)
 root.geometry("{}x{}+{}+{}".format(wwidth, wheight, int(xaxis), int(yaxis)))
-root.resizable(0, 0)
+
 
 def combine_funcs(*funcs):
   
@@ -50,12 +53,12 @@ def combine_funcs(*funcs):
     return inner_combined_func
 
 def save_state():
-    with open("checkbox_state.txt", "w") as file:
+    with open("C:\\info\\checkbox_state.txt", "w") as file:
         file.write(str(var.get()))
 
 def load_state():
     try:
-        with open("checkbox_state.txt", "r") as file:
+        with open("C:\\info\\checkbox_state.txt", "r") as file:
             state = file.read().strip()
             if state == "True":
                 var.set(True)
@@ -64,14 +67,14 @@ def load_state():
     except:
         pass
 
-titlebar = Frame(root, bg='#31333D', relief='raised', bd=0, highlightthickness=6, highlightbackground='#31333D')
+titlebar = Frame(root, bg='#31333D', relief='raised', bd=0, highlightthickness=5.5, highlightbackground='#31333D')
 titlebar.pack(fill=X)
-titlebartitle = Label(root, text='Malware', bg='#31333D',bd=0,fg='#808080', font=('helvetica', 10), highlightthickness=0)
+titlebartitle = Label(root, text='notavirus.exe', bg='#31333D',bd=0,fg='#808080', font=('helvetica', 10), highlightthickness=0)
 titlebartitle.place(y=5, x=9)
 titlebartitle = Label(titlebar, bg='#31333D',bd=0,fg='#808080', font=('helvetica', 8, 'bold'), highlightthickness=0)
 titlebartitle.pack(side=TOP, padx=10)
-closebutton = Button(root, text='  ×  ', command=combine_funcs(save_state, root.destroy), bg='#31333D',font=("calibri", 10, 'bold'),bd=0,fg='#808080',highlightthickness=0, width=5)
-closebutton.place(y=4, x=507)
+closebutton = Button(root, text='  ×  ', command=root.destroy, bg='#31333D',font=("calibri", 10, 'bold'),bd=0,fg='#808080',highlightthickness=0, width=5)
+closebutton.place(y=3.5, x=507)
 
 def changex_on_hovering(event):
     global closebutton
@@ -131,6 +134,12 @@ root.after(10, lambda: set_appwindow(root)) # to see the icon on the task bar
 frame = ctk.CTkFrame(master=root, fg_color='#1D1E24', bg_color='#1D1E24')
 frame.pack(fill='both', expand=True)
 
+path = 'C:\\info'
+if not os.path.exists(path):
+    os.makedirs(path)
+else:
+    pass
+
 def loginT():
     if loglicense.get() == '':
         messagebox.showerror('Error', 'All Fields are Required')
@@ -153,21 +162,22 @@ def loginT():
             # an error occurred or the key is invalid or it cannot be activated
             # (eg. the limit of activated devices was achieved)
             messagebox.showerror('Error', 'Invalid or Expired License Key')
-        else:   
-            try:
-                query = 'use carter_santucci'
-                mycur.execute(query)
-                query= 'select * from customer where licensekey=%s'
-                mycur.execute(query, (loglicense.get()))
-                row = mycur.fetchone()
-                if row == None:
-                    messagebox.showerror('Error', 'Invalid or Expired License Key')
-                else:
-                    for widget in frame.winfo_children():
-                        widget.destroy()
-                    mainpage()
-            except:
+        else: 
+            global licensekey
+            licensekey = result[0]
+            query = 'use carter_santucci'
+            mycur.execute(query)
+            query= 'select * from customer where licensekey=%s'
+            mycur.execute(query,(loglicense.get()))
+            row = mycur.fetchone()
+            if row == None:
                 messagebox.showerror('Error', 'License Key not Registered')
+            else:
+                for widget in frame.winfo_children():
+                    widget.destroy()
+                with open("C:\\info\\info.txt", "w") as file:
+                    file.write(f'{loglicenseinfo}')
+                mainpage()
 
 def signup():
     if regusername.get() == '' or regpassword.get() == '' or reglicense.get() == '':
@@ -210,9 +220,9 @@ def signup():
                 mycur.execute(query, (regusername.get(), regpassword.get(), reglicense.get()))
                 con.commit()
                 con.close()
-                loginBclick()
-                with open("info.txt", "w") as file:
+                with open("C:\\info\\info.txt", "w") as file:
                     file.write(f'{reglicenseinfo}')
+                loginBclick()
 
 def upgrade():
     if upusername.get() == '' or uppassword.get() == '' or upnewlicense.get() == '':
@@ -240,7 +250,6 @@ def upgrade():
             messagebox.showerror('Error', 'Invalid or Expired License Key')
         else:
             mycur.execute('use carter_santucci')
-
             try:
                 query = 'select * from customer where licensekey=%s'
                 mycur.execute(query,(upnewlicense.get()))
@@ -256,14 +265,13 @@ def upgrade():
                     mycur.execute(query)
                     con.commit()
                     con.close()
-                    loginBclick()
-                    with open("info.txt", "w") as file:
+                    with open("C:\\info\\info.txt", "w") as file:
                         file.write(f'{upnewlicenseinfo}')
+                    loginBclick()
                 else:
                     messagebox.showerror('Error', 'User not Found')
             except:
                 messagebox.showerror('Error', 'User not Found')
-
 
 var = ctk.BooleanVar()
 
@@ -280,10 +288,8 @@ def upgradeclick():
         widget.destroy()
     upgradepage()
 
-loglicense = ctk.CTkEntry(root)
-
 def loginpage():
-    ctk.CTkLabel(master=frame, text='', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=85) # label
+    ctk.CTkLabel(master=frame, text='Malware', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=180) # label
     
     # global logusername
     # logusername = ctk.CTkEntry(master=frame, placeholder_text='Username', text_font=('Arial', 10), bg_color='#1D1E24', width=230, height=35)
@@ -295,41 +301,37 @@ def loginpage():
     
     global loglicense
     try:
-        with open("checkbox_state.txt", "r") as file:
+        with open("C:\\info\\checkbox_state.txt", "r") as file:
             state = file.read().strip()
             if state == "True":
-                file = open(f'info.txt', 'r')
+                file = open(f'C:\\info\\info.txt', 'r')
                 verify = file.read().splitlines()
                 v = StringVar(root, value=verify)
-                loglicense = ctk.CTkEntry(master=frame, text_font=('Arial', 10), show='•', textvariable=v, placeholder_text='License Key', width=265, height=40, border_color='#757BC1', fg_color='#1D1E24',  border_width=1)
-                loglicense.place(y=105, x=120)
+                loglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', textvariable=v, text_font=('Arial', 10), show='•', width=265, height=40, border_color='#757BC1', fg_color='#1D1E24',  border_width=1)
+                loglicense.place(y=95, x=120)
             else:
                 loglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), show='•', width=265, height=40, border_color='#757BC1', fg_color='#1D1E24',  border_width=1)
-                loglicense.place(y=105, x=120)
+                loglicense.place(y=95, x=120)
     except:
-        pass   
-    
+        loglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), show='•', width=265, height=40, border_color='#757BC1', fg_color='#1D1E24',  border_width=1)
+        loglicense.place(y=95, x=120)
     
     # mydiscord = ctk.CTkLabel(master=frame, text='Discord: cheerios#6071', text_font=('Arial', 10), text_color='white')
     # mydiscord.place(y=220, x=205)
-    
-    ctk.CTkButton(master=frame, text='  Login', command=loginT, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=92, height=40).place(y=105, x=348)  # login top
+
+    ctk.CTkButton(master=frame, text='  Login', command=loginT, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=92, height=40).place(y=95, x=348)  # login top
     
     ctk.CTkButton(master=frame, text='Login', text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=210, x=71)  # login bottom
-
-    ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=210, x=209.49999999999995)   # register bottom
-                
+    ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=210, x=209.49999999999995)   # register bottom            
     ctk.CTkButton(master=frame, text=' Upgrade', text_font=('Arial Black', 10, 'bold'), command=upgradeclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=210, x=348)    # upgrade bottom
 
     
     # LoginTbutton = ctk.CTkButton(master=frame, text='  Login', command=loginT, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=80, height=35)
     # LoginTbutton.place(y=165, x=385)
     
-    tk.Frame(frame, background='#1D1E24', width=7, height=40).place(y=105, x=348)   # fix inner
-    
-    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=105, x=348)    # fix out top
-    
-    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=144, x=348)    # fix out bottom
+    tk.Frame(frame, background='#1D1E24', width=7, height=40).place(y=95, x=348)   # fix inner
+    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=95, x=348)    # fix out top
+    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=134, x=348)    # fix out bottom
 
     # framefixiner = tk.Frame(frame, background='#3D3D3D', width=7, height=34)
     # framefixiner.place(y=165, x=385)
@@ -342,12 +344,12 @@ def loginpage():
 
     global remme
     remme = ctk.CTkCheckBox(master=frame, text='Remember me', fg_color='#757BC1', width=20, height=20, variable=var, command=save_state, border_width=1.5, border_color='#757BC1')
-    remme.place(y=160, x=120)
+    remme.place(y=150, x=120)
         
     root.mainloop()
 
 def registerpage():
-    ctk.CTkLabel(master=frame, text='', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=145) # label
+    ctk.CTkLabel(master=frame, text='Malware', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=180) # label
     
     global regusername
     regusername = ctk.CTkEntry(master=frame, placeholder_text='Username', text_font=('Arial', 10), bg_color='#1D1E24', width=230, height=33, fg_color='#1D1E24', border_color='#757BC1', border_width=1)
@@ -364,21 +366,15 @@ def registerpage():
     ctk.CTkButton(master=frame, text='  Signup', command=signup, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=92, height=40, border_color='#757BC1').place(y=155, x=348)    # sign up
     
     ctk.CTkButton(master=frame, text='Login', text_font=('Arial Black', 10, 'bold'), command=loginBclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=210, x=71)    # login bottom
-    
     ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=210, x=209.49999999999995)     # register bottom
-    
     ctk.CTkButton(master=frame, text=' Upgrade', text_font=('Arial Black', 10, 'bold'), command=upgradeclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=210, x=348)    # upgrade bottom
     
     tk.Frame(frame, background='#1D1E24', width=7, height=40,).place(y=155, x=348)   # fix inner
-    
     tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=155, x=348)     # fix out top
-    
     tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=194, x=348)    # fix out bottom
-
-    root.mainloop()
     
 def upgradepage():
-    ctk.CTkLabel(master=frame, text='', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=85) # label
+    ctk.CTkLabel(master=frame, text='Malware', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=180) # label
 
     global upusername
     upusername = ctk.CTkEntry(master=frame, placeholder_text='Username', text_font=('Arial', 10), bg_color='#1D1E24', width=230, height=33, fg_color='#1D1E24', border_color='#757BC1', border_width=1)
@@ -393,28 +389,53 @@ def upgradepage():
     upnewlicense.place(y=155, x=120)
     
     ctk.CTkButton(master=frame, text='  Upgrade', command=upgrade, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=92, height=40, border_color='#757BC1').place(y=155, x=348)    # upgrade
-
+    
     ctk.CTkButton(master=frame, text='Login', text_font=('Arial Black', 10, 'bold'), command=loginBclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=210, x=71)    # login bottom
-    
     ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=210, x=209.49999999999995)     # register bottom
-    
-    ctk.CTkButton(master=frame, text='Upgrade', text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=210, x=348)    # upgrade bottom
+    ctk.CTkButton(master=frame, text=' Upgrade', text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=210, x=348)    # upgrade bottom
 
     tk.Frame(frame, background='#1D1E24', width=7, height=40,).place(y=155, x=348)   # fix inner
-    
     tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=155, x=348)     # fix out top
-    
-    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=194, x=348)    # fix out bottom
+    tk.Frame(frame, background='#757BC1', width=8, height=1).lace(y=194, x=348)    # fix out bottom
 
 def mainpage():
-    # regusername = ctk.CTkEntry(master=frame, placeholder_text='Username', text_font=('Arial', 10), bg_color='#1D1E24', width=230, height=35, fg_color='#1D1E24', border_color='#757BC1', border_width=1)
-    # reglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), width=290, height=40, border_color='#757BC1', fg_color='#1D1E24', border_width=1)
-    # regusernameinfo = regusername.get()
-    # reglicenseinfo = reglicense.get()
+    try:
+        con = pymysql.connect(host='192.169.144.133', user='santucci', password='mcctcrocks', database='carter_santucci')
+        mycur = con.cursor()
+    except:
+        messagebox.showerror('Error', 'Database Connectivity Issue\n              Try Again')
+        loginBclick()
     
-    ctk.CTkButton(master=frame, text='TEST', text_font=('Arial Black', 9), text_color='white', fg_color='#1D1E24', command=loginBclick, width=100, height=30).place(y=75, x=200) # label
+    file = open(f'C:\\info\\info.txt', 'r')
+    verify = file.read().splitlines()
+    mycur.execute('use carter_santucci')
+    query = "select * from customer where licensekey = %s"
+    mycur.execute(query, (verify))
+    row = mycur.fetchone()
+    file = open(f'C:\\info\\info.txt', 'r')
+    verify = file.read().splitlines()
+    
+    ctk.CTkLabel(master=frame, text=f'Hello {row[0]}!', text_font=('Arial Black', 9), text_color='#757BC1').place(y=0, x=-15) # label
+    ctk.CTkLabel(master=frame, text=str(licensekey.expires), text_font=('Arial Black', 9), text_color='#757BC1').place(y=0, x=200) # label
 
-    root.mainloop()
+    ctk.CTkButton(master=frame, text='Back', text_font=('Arial Black', 9), text_color='#757BC1', fg_color='#1D1E24', hover_color='#1D1E24', command=loginBclick, width=0, height=0).place(y=0, x=498) # label
+
+    lmain = Label(frame,width=600,height=300)
+    lmain.place(y=50, x=80)
+
+    cap=cv2.VideoCapture(0)
+
+    def video_stream():
+        _, frame = cap.read()
+
+        cv2image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
+        img = Image.fromarray(cv2image)
+        imgtk = ImageTk.PhotoImage(image=img)
+        lmain.imgtk = imgtk
+        lmain.configure(image=imgtk)
+        lmain.after(1, video_stream)
+
+    video_stream()
 
 load_state()
 root.protocol("WM_DELETE_WINDOW", save_state)
