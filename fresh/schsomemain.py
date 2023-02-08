@@ -26,16 +26,17 @@ ctk.set_default_color_theme('dark-blue')
 mainc = '#1D1E24'
 
 root = ctk.CTk()
-root.title('Malware') 
+root.title('Walmare') 
 root.overrideredirect(True)
 wwidth=750
 wheight=400
+# wwidth=550
+# wheight=300
 swidth = root.winfo_screenwidth()
 sheight = root.winfo_screenheight()
 xaxis = (swidth/2) - (wwidth/2)
 yaxis = (sheight/2) - (wheight/2)
 root.geometry("{}x{}+{}+{}".format(wwidth, wheight, int(xaxis), int(yaxis)))
-
 
 def combine_funcs(*funcs):
   
@@ -69,12 +70,12 @@ def load_state():
 
 titlebar = Frame(root, bg='#31333D', relief='raised', bd=0, highlightthickness=5.5, highlightbackground='#31333D')
 titlebar.pack(fill=X)
-titlebartitle = Label(root, text='notavirus.exe', bg='#31333D',bd=0,fg='#808080', font=('helvetica', 10), highlightthickness=0)
+titlebartitle = Label(root, text='Walmare.exe', bg='#31333D',bd=0,fg='#808080', font=('helvetica', 10), highlightthickness=0)
 titlebartitle.place(y=5, x=9)
 titlebartitle = Label(titlebar, bg='#31333D',bd=0,fg='#808080', font=('helvetica', 8, 'bold'), highlightthickness=0)
 titlebartitle.pack(side=TOP, padx=10)
-closebutton = Button(root, text='  ×  ', command=root.destroy, bg='#31333D',font=("calibri", 10, 'bold'),bd=0,fg='#808080',highlightthickness=0, width=5)
-closebutton.place(y=3.5, x=507)
+closebutton = Button(root, text='  ×  ', command=root.destroy, bg='#31333D',font=("calibri", 10, 'bold'),bd=0,fg='#808080',highlightthickness=0, width=4)
+closebutton.place(y=3.5, x=514)
 
 def changex_on_hovering(event):
     global closebutton
@@ -198,8 +199,6 @@ def signup():
                     key=f'{reglicenseinfo}',\
                     machine_code=Helpers.GetMachineCode())
         if result[0] == None or not Helpers.IsOnRightMachine(result[0]):
-            # an error occurred or the key is invalid or it cannot be activated
-            # (eg. the limit of activated devices was achieved)
             messagebox.showerror('Error', 'Invalid or Expired License Key')
         else:
             mycur.execute('use carter_santucci')
@@ -245,8 +244,6 @@ def upgrade():
                     key=f'{upnewlicenseinfo}',\
                     machine_code=Helpers.GetMachineCode())
         if result[0] == None or not Helpers.IsOnRightMachine(result[0]):
-            # an error occurred or the key is invalid or it cannot be activated
-            # (eg. the limit of activated devices was achieved)
             messagebox.showerror('Error', 'Invalid or Expired License Key')
         else:
             mycur.execute('use carter_santucci')
@@ -287,9 +284,14 @@ def upgradeclick():
     for widget in frame.winfo_children():
         widget.destroy()
     upgradepage()
+def backclick():
+    for widget in frame.winfo_children():
+        widget.destroy()
+        lmain.destroy()
+    loginpage()
 
 def loginpage():
-    ctk.CTkLabel(master=frame, text='Malware', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=180) # label
+    ctk.CTkLabel(master=frame, text='Walmare', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=180) # label
     
     # global logusername
     # logusername = ctk.CTkEntry(master=frame, placeholder_text='Username', text_font=('Arial', 10), bg_color='#1D1E24', width=230, height=35)
@@ -325,7 +327,6 @@ def loginpage():
     ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=210, x=209.49999999999995)   # register bottom            
     ctk.CTkButton(master=frame, text=' Upgrade', text_font=('Arial Black', 10, 'bold'), command=upgradeclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=210, x=348)    # upgrade bottom
 
-    
     # LoginTbutton = ctk.CTkButton(master=frame, text='  Login', command=loginT, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=80, height=35)
     # LoginTbutton.place(y=165, x=385)
     
@@ -344,12 +345,12 @@ def loginpage():
 
     global remme
     remme = ctk.CTkCheckBox(master=frame, text='Remember me', fg_color='#757BC1', width=20, height=20, variable=var, command=save_state, border_width=1.5, border_color='#757BC1')
-    remme.place(y=150, x=120)
+    remme.place(y=145, x=120)
         
     root.mainloop()
 
 def registerpage():
-    ctk.CTkLabel(master=frame, text='Malware', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=180) # label
+    ctk.CTkLabel(master=frame, text='Walmare', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=180) # label
     
     global regusername
     regusername = ctk.CTkEntry(master=frame, placeholder_text='Username', text_font=('Arial', 10), bg_color='#1D1E24', width=230, height=33, fg_color='#1D1E24', border_color='#757BC1', border_width=1)
@@ -374,7 +375,7 @@ def registerpage():
     tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=194, x=348)    # fix out bottom
     
 def upgradepage():
-    ctk.CTkLabel(master=frame, text='Malware', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=180) # label
+    ctk.CTkLabel(master=frame, text='Walmare', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=180) # label
 
     global upusername
     upusername = ctk.CTkEntry(master=frame, placeholder_text='Username', text_font=('Arial', 10), bg_color='#1D1E24', width=230, height=33, fg_color='#1D1E24', border_color='#757BC1', border_width=1)
@@ -396,9 +397,10 @@ def upgradepage():
 
     tk.Frame(frame, background='#1D1E24', width=7, height=40,).place(y=155, x=348)   # fix inner
     tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=155, x=348)     # fix out top
-    tk.Frame(frame, background='#757BC1', width=8, height=1).lace(y=194, x=348)    # fix out bottom
+    tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=194, x=348)    # fix out bottom
 
 def mainpage():
+    global bswitch
     try:
         con = pymysql.connect(host='192.169.144.133', user='santucci', password='mcctcrocks', database='carter_santucci')
         mycur = con.cursor()
@@ -414,28 +416,42 @@ def mainpage():
     row = mycur.fetchone()
     file = open(f'C:\\info\\info.txt', 'r')
     verify = file.read().splitlines()
-    
-    ctk.CTkLabel(master=frame, text=f'Hello {row[0]}!', text_font=('Arial Black', 9), text_color='#757BC1').place(y=0, x=-15) # label
-    ctk.CTkLabel(master=frame, text=str(licensekey.expires), text_font=('Arial Black', 9), text_color='#757BC1').place(y=0, x=200) # label
-
-    ctk.CTkButton(master=frame, text='Back', text_font=('Arial Black', 9), text_color='#757BC1', fg_color='#1D1E24', hover_color='#1D1E24', command=loginBclick, width=0, height=0).place(y=0, x=498) # label
-
-    lmain = Label(frame,width=600,height=300)
-    lmain.place(y=50, x=80)
 
     cap=cv2.VideoCapture(0)
-
     def video_stream():
         _, frame = cap.read()
-
-        cv2image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
+        cv2image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA) 
         img = Image.fromarray(cv2image)
         imgtk = ImageTk.PhotoImage(image=img)
         lmain.imgtk = imgtk
         lmain.configure(image=imgtk)
         lmain.after(1, video_stream)
 
-    video_stream()
+    global ison
+    ison = True
+    def switch():
+        global ison
+        if ison == True:
+            global lmain
+            global bswitch
+            bswitch = ctk.CTkButton(master=frame, text='Stop', text_font=('Arial Black', 10), fg_color='#757BC1', command=switch, width=110, height=40).place(y=300, x=275) # label
+            lmain = Label(root,width=630,height=300)
+            lmain.place(y=50, x=60)
+            # time.sleep(0.5)
+            video_stream()
+            root.update()
+            ison = False
+        else:
+            bswitch = ctk.CTkButton(master=frame, text='Start', text_font=('Arial Black', 10), fg_color='#757BC1', command=switch, width=110, height=40).place(y=300, x=275) # label
+            lmain.destroy()
+            root.update()
+            ison = True
+
+    ctk.CTkLabel(master=frame, text=f'Hello {row[0]}!', text_font=('Arial Black', 10), text_color='#757BC1', width=0).place(y=0, x=7) # label
+    ctk.CTkLabel(master=frame, text=str(licensekey.expires), text_font=('Arial Black', 9), text_color='white').place(y=0, x=200) # label
+
+    ctk.CTkButton(master=frame, text='Back', text_font=('Arial Black', 10), text_color='#757BC1', fg_color='#1D1E24', hover_color='#1D1E24', command=backclick, width=0, height=0).place(y=0, x=498) # label
+    bswitch = ctk.CTkButton(master=frame, text='Start', text_font=('Arial Black', 10), fg_color='#757BC1', command=switch, width=110, height=40).place(y=300, x=275) # label
 
 load_state()
 root.protocol("WM_DELETE_WINDOW", save_state)
