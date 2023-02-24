@@ -17,8 +17,8 @@ from PIL import Image, ImageTk
 
 #python -m PyInstaller --onefile --windowed --icon=C:\py\home\fresh\pics\yea.ico --add-data "C:/Users/cheer/AppData/Roaming/Python/Python310/site-packages/customtkinter;customtkinter/"  "C:/py/home/fresh/schsomemain.py" 
 
-RSAPubKey = "<RSAKeyValue><Modulus>nakBsggAFPeri5w98jlWfQ2bLlFG4b704be79ox+VOhze7kiqGZFc4zHAAHFVObC8sCAXT443NXxp4vxUwkXuMOjDl+WYzzGEeOvaotnjbSUwwKnF9mmHn3HxR8vahvpxcdOK/QErj20D6FArgqSAPNe4fWBowfK0LBcsmUgA9S4aAWqdbzn5I/wymbEdFALLDP00q1sDmEYlLNGXI+ixwX1ozn8gK0dx7QPyyK9GqJ551wWCknFwc63dJbYA1c7k98FLhgWC/vxcBdNZTH66WGtsRLT/sYboYd/2LRUoFGCeZ8GOiJ4F2oTOVLGImJaXmdod6sB1jXB8YQAImqbjQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>"
-auth = "WyIzNjA2NjYxNCIsInlLSWJ5VVJEdFVPZHpkN3A3TE1rVk9HQ3Zxa29UcTVVaE1YeUtmR0giXQ=="
+RSAPubKey = "<RSAKeyValue><Modulus>xoH5/uNLVWhUe24tVpgwnDF3DtNXTd5qCenAbacJUDeEkCZ4MeQXJv8OiJSHc9MxMqbx2GEqDqaFYs47wVOg/QRig0jlwmqE/jP9GowS5xifqiFGc0UA3D337ePG8EKLUw20WuvYb7b7sVmq0ktPJmJpVw1jh/G0XkkRsFoOjk4vjCwQeq03Fd/ZzJGH/wrC4QDtNvLHuuS1KKI1MSkoEaUnZn8+enNmvIYrU9Z7E6lBtvCYKtOr4xiDk34QTcLTcVrioHiwcZS4vLEm5IjTbcZMXaPNff+y/6Ir9xE6VEvfYgHrjsrZ4j8ZiQm9FJsUNlb/gvMLXvLHRVYchW78Uw==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>"
+auth = "WyIzOTM4NTE4MyIsIlZPdTd5ZzFJR2VYeFV4L2t1ZzJtaVBaQ0hlUnk2WFVUZ0gwUS90alMiXQ=="
 
 ctk.set_appearance_mode('dark')
 ctk.set_default_color_theme('dark-blue')
@@ -156,7 +156,7 @@ def loginT():
         loglicenseinfo = loglicense.get()
         result = Key.activate(token=auth,\
                     rsa_pub_key=RSAPubKey,\
-                    product_id=18644, \
+                    product_id=19008, \
                     key=f'{loglicenseinfo}',\
                     machine_code=Helpers.GetMachineCode())
         if result[0] == None or not Helpers.IsOnRightMachine(result[0]):
@@ -195,7 +195,7 @@ def signup():
         reglicenseinfo = reglicense.get()
         result = Key.activate(token=auth,\
                     rsa_pub_key=RSAPubKey,\
-                    product_id=18644, \
+                    product_id=19008, \
                     key=f'{reglicenseinfo}',\
                     machine_code=Helpers.GetMachineCode())
         if result[0] == None or not Helpers.IsOnRightMachine(result[0]):
@@ -240,7 +240,7 @@ def upgrade():
         upnewlicenseinfo = upnewlicense.get()
         result = Key.activate(token=auth,\
                     rsa_pub_key=RSAPubKey,\
-                    product_id=18644, \
+                    product_id=19008, \
                     key=f'{upnewlicenseinfo}',\
                     machine_code=Helpers.GetMachineCode())
         if result[0] == None or not Helpers.IsOnRightMachine(result[0]):
@@ -293,14 +293,6 @@ def backclick():
 def loginpage():
     ctk.CTkLabel(master=frame, text='Walmare', text_font=('Arial Black', 30), text_color='#757BC1').place(y=0, x=180) # label
     
-    # global logusername
-    # logusername = ctk.CTkEntry(master=frame, placeholder_text='Username', text_font=('Arial', 10), bg_color='#1D1E24', width=230, height=35)
-    # logusername.place(y=115, x=235)
-
-    # global logpassword
-    # logpassword = ctk.CTkEntry(master=frame, placeholder_text='Password', text_font=('Arial', 10), width=230, height=35)
-    # logpassword.place(y=165, x=235)
-    
     global loglicense
     try:
         with open("C:\\info\\checkbox_state.txt", "r") as file:
@@ -317,31 +309,16 @@ def loginpage():
     except:
         loglicense = ctk.CTkEntry(master=frame, placeholder_text='License Key', text_font=('Arial', 10), show='•', width=265, height=40, border_color='#757BC1', fg_color='#1D1E24',  border_width=1)
         loglicense.place(y=95, x=120)
-    
-    # mydiscord = ctk.CTkLabel(master=frame, text='Discord: cheerios#6071', text_font=('Arial', 10), text_color='white')
-    # mydiscord.place(y=220, x=205)
 
     ctk.CTkButton(master=frame, text='  Login', command=loginT, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=92, height=40).place(y=95, x=348)  # login top
     
     ctk.CTkButton(master=frame, text='Login', text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=130, height=45).place(y=210, x=71)  # login bottom
     ctk.CTkButton(master=frame, text=' Register', text_font=('Arial Black', 10, 'bold'), command=registerclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=210, x=209.49999999999995)   # register bottom            
     ctk.CTkButton(master=frame, text=' Upgrade', text_font=('Arial Black', 10, 'bold'), command=upgradeclick, bg_color='#1D1E24', fg_color='#1D1E24', width=130, height=45).place(y=210, x=348)    # upgrade bottom
-
-    # LoginTbutton = ctk.CTkButton(master=frame, text='  Login', command=loginT, text_font=('Arial Black', 10, 'bold'), bg_color='#1D1E24', fg_color='#757BC1', width=80, height=35)
-    # LoginTbutton.place(y=165, x=385)
     
     tk.Frame(frame, background='#1D1E24', width=7, height=40).place(y=95, x=348)   # fix inner
     tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=95, x=348)    # fix out top
     tk.Frame(frame, background='#757BC1', width=8, height=1).place(y=134, x=348)    # fix out bottom
-
-    # framefixiner = tk.Frame(frame, background='#3D3D3D', width=7, height=34)
-    # framefixiner.place(y=165, x=385)
-    
-    # framefixoutT = tk.Frame(frame, background='#525252', width=8, height=2)
-    # framefixoutT.place(y=165, x=384)
-    
-    # framefixoutB = tk.Frame(frame, background='#525252', width=8, height=2)
-    # framefixoutB.place(y=197, x=384)
 
     global remme
     remme = ctk.CTkCheckBox(master=frame, text='Remember me', fg_color='#757BC1', width=20, height=20, variable=var, command=save_state, border_width=1.5, border_color='#757BC1')
@@ -434,7 +411,7 @@ def mainpage():
         if ison == True:
             global lmain
             global bswitch
-            bswitch = ctk.CTkButton(master=frame, text='Stop', text_font=('Arial Black', 10), fg_color='#757BC1', command=switch, width=110, height=40).place(y=300, x=275) # label
+            bswitch = ctk.CTkButton(master=frame, text='Stop', text_font=('Arial Black', 10), fg_color='#757BC1', command=switch, width=110, height=30).place(y=330, x=275) # label
             lmain = Label(root,width=630,height=300)
             lmain.place(y=50, x=60)
             # time.sleep(0.5)
@@ -442,7 +419,7 @@ def mainpage():
             root.update()
             ison = False
         else:
-            bswitch = ctk.CTkButton(master=frame, text='Start', text_font=('Arial Black', 10), fg_color='#757BC1', command=switch, width=110, height=40).place(y=300, x=275) # label
+            bswitch = ctk.CTkButton(master=frame, text='Start', text_font=('Arial Black', 10), fg_color='#757BC1', command=switch, width=110, height=30).place(y=330, x=275) # label
             lmain.destroy()
             root.update()
             ison = True
@@ -451,7 +428,7 @@ def mainpage():
     ctk.CTkLabel(master=frame, text=str(licensekey.expires), text_font=('Arial Black', 9), text_color='white').place(y=0, x=200) # label
 
     ctk.CTkButton(master=frame, text='Back', text_font=('Arial Black', 10), text_color='#757BC1', fg_color='#1D1E24', hover_color='#1D1E24', command=backclick, width=0, height=0).place(y=0, x=498) # label
-    bswitch = ctk.CTkButton(master=frame, text='Start', text_font=('Arial Black', 10), fg_color='#757BC1', command=switch, width=110, height=40).place(y=300, x=275) # label
+    bswitch = ctk.CTkButton(master=frame, text='Start', text_font=('Arial Black', 10), fg_color='#757BC1', command=switch, width=110, height=30).place(y=330, x=275) # label
 
 load_state()
 root.protocol("WM_DELETE_WINDOW", save_state)
