@@ -17,8 +17,8 @@ from PIL import Image, ImageTk
 
 #python -m PyInstaller --onefile --windowed --icon=C:\py\home\fresh\pics\yea.ico --add-data "C:/Users/cheer/AppData/Roaming/Python/Python310/site-packages/customtkinter;customtkinter/"  "C:/py/home/fresh/schsomemain.py" 
 
-RSAPubKey = "<RSAKeyValue><Modulus>xoH5/uNLVWhUe24tVpgwnDF3DtNXTd5qCenAbacJUDeEkCZ4MeQXJv8OiJSHc9MxMqbx2GEqDqaFYs47wVOg/QRig0jlwmqE/jP9GowS5xifqiFGc0UA3D337ePG8EKLUw20WuvYb7b7sVmq0ktPJmJpVw1jh/G0XkkRsFoOjk4vjCwQeq03Fd/ZzJGH/wrC4QDtNvLHuuS1KKI1MSkoEaUnZn8+enNmvIYrU9Z7E6lBtvCYKtOr4xiDk34QTcLTcVrioHiwcZS4vLEm5IjTbcZMXaPNff+y/6Ir9xE6VEvfYgHrjsrZ4j8ZiQm9FJsUNlb/gvMLXvLHRVYchW78Uw==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>"
-auth = "WyIzOTM4NTE4MyIsIlZPdTd5ZzFJR2VYeFV4L2t1ZzJtaVBaQ0hlUnk2WFVUZ0gwUS90alMiXQ=="
+RSAPubKey = "<RSAKeyValue><Modulus>w3JhSUHbkBXqEhJr6ocvSvwXwKGkFWt+f3HcFsuUQJqPnS4ZTGnqF4aMquOQ5NerSZThO7dgRLp4H/IQAwzeB2Ai7qKYlYfnswVTc7SvCu9y6w+RGO6tubN99CUPmkEPPKBwHzw2sAzM3M+5leKYa0ZOYAu0biPmM3Sk4ivphthzirqF5ztsgQVQzxA1qp6tWAooKhGYxKobPw0t45P6Ui0JBFAUzzM6/COwBxr5BTFFxu9Pi/m/urDSRW4FxI+IzD14Ibel0muKGu/llaUDWKZ9KUdw2Q09KEk3y/Njjqbrlxv6SZoZe/1ShkAnG2GdkzkTj4ad5TbgoWW/dajdJw==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>"
+auth = "WyI0Nzk5NjUxMyIsInRIMDB4ZFNoVmJDWlNrKzJ3eStDcHJabzIrZ0x3RmRkbTVFbkRtYjQiXQ=="
 
 ctk.set_appearance_mode('dark')
 ctk.set_default_color_theme('dark-blue')
@@ -156,7 +156,7 @@ def loginT():
         loglicenseinfo = loglicense.get()
         result = Key.activate(token=auth,\
                     rsa_pub_key=RSAPubKey,\
-                    product_id=19008, \
+                    product_id=20058, \
                     key=f'{loglicenseinfo}',\
                     machine_code=Helpers.GetMachineCode())
         if result[0] == None or not Helpers.IsOnRightMachine(result[0]):
@@ -195,7 +195,7 @@ def signup():
         reglicenseinfo = reglicense.get()
         result = Key.activate(token=auth,\
                     rsa_pub_key=RSAPubKey,\
-                    product_id=19008, \
+                    product_id=20058, \
                     key=f'{reglicenseinfo}',\
                     machine_code=Helpers.GetMachineCode())
         if result[0] == None or not Helpers.IsOnRightMachine(result[0]):
@@ -240,7 +240,7 @@ def upgrade():
         upnewlicenseinfo = upnewlicense.get()
         result = Key.activate(token=auth,\
                     rsa_pub_key=RSAPubKey,\
-                    product_id=19008, \
+                    product_id=20058, \
                     key=f'{upnewlicenseinfo}',\
                     machine_code=Helpers.GetMachineCode())
         if result[0] == None or not Helpers.IsOnRightMachine(result[0]):
